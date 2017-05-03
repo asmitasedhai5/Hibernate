@@ -49,10 +49,13 @@ public class HibernateMain {
 		session.beginTransaction();
 		@SuppressWarnings("deprecation")
 		List<Student> studentlist = session.createCriteria(Student.class).list();
-		System.out.println(studentlist.toString());
+		//System.out.println(studentlist.toString());
+		for(Student s:studentlist){
+			System.out.println(s.getId()+" "+s.getFirstName()+" "+s.getLastName()+" "+s.getSection()+" "+s.getUniversity().getName());
+		}
 		@SuppressWarnings("deprecation")
 		List<University> universitylist = session.createCriteria(University.class).list();
-		System.out.println(universitylist.toString());
+		//System.out.println(universitylist.toString());
 		session.close();
 	}
 
