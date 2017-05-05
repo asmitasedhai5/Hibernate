@@ -1,10 +1,14 @@
 package com.hibernate.manytoonebidirectional.main;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.hibernate.manytoonebidirectional.entity.Employee;
+import com.hibernate.manytoonebidirectional.entity.Employer;
 
 public class HibernateMain {
 	SessionFactory sf = new Configuration().configure().buildSessionFactory();
@@ -12,52 +16,48 @@ public class HibernateMain {
 	public void insert() {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		Employee employee = new Employee();
-		employee.setEmployeeName("Asmita Sedhai");
-		
-		
-		session.save(employee);
+		Employer employer = new Employer();
+		employer.setEmployerName("Employer 1");
+
+		List<Employee> employees = new LinkedList<Employee>();
+
+		Employee employee1 = new Employee();
+		employee1.setEmployeeName("Ujjwal Pandey");
+		employee1.setEmployer(employer);
+		employees.add(employee1);
+
+		Employee employee2 = new Employee();
+		employee2.setEmployeeName("Utsav Thapa");
+		employee2.setEmployer(employer);
+		employees.add(employee2);
+
+		employer.setEmployees(employees);
+
+		session.save(employer);
 		session.getTransaction().commit();
 		session.close();
 	}
-	public void update() {
+
+	public void display() {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		Employee employee = session.get(Employee.class, 1);
-		System.out.println(employee.toString());
-		if (employee != null) 
-			employee.setEmployeeName("ASMEETA SEDHAI");
-			session.update(employee);
-		
-		
-		session.close();
-	}
+		@SuppressWarnings({ "deprecation", "unchecked" })
 
-	public void delete() {
-		Session session = sf.openSession();
-		session.beginTransaction();
-		Employee employee = session.get(Employee.class, 1);
-		if (employee != null) {
-
-			session.delete(employee);
-
+		List<Employee> employees = (List<Employee>) session.createQuery("from Employee ").list();
+		for (Employee e : employees) {
+			System.out
+					.println("Employee Details : " + "Id:" + e.getId() + " " + "Employee name:" + e.getEmployeeName());
+			System.out.println("Employer Details: " + "Employer Id:" + e.getEmployer().getId() + " " + "Employer name:"
+					+ e.getEmployer().getEmployerName());
 		}
-		// session.getTransaction().commit();
+
 		session.close();
 	}
-	public void display(){
-		
-	}
-	
-	
 
 	public static void main(String[] args) {
 
 		HibernateMain hm = new HibernateMain();
-		//hm.insert();
-		//hm.delete();
 		hm.display();
 
 	}
 }
-
