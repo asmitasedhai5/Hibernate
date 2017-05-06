@@ -7,13 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity//hibernate managed object
+@Entity // hibernate managed object
 public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String employeeName;
-	 @ManyToOne(cascade=CascadeType.ALL)  
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Employer employer;
 
 	public Long getId() {
@@ -39,7 +39,5 @@ public class Employee {
 	public void setEmployer(Employer employer) {
 		this.employer = employer;
 	}
-
-	
 
 }

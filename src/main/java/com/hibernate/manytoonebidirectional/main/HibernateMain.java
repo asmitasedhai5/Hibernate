@@ -41,6 +41,7 @@ public class HibernateMain {
 	public void display() {
 		Session session = sf.openSession();
 		session.beginTransaction();
+
 		@SuppressWarnings({ "deprecation", "unchecked" })
 
 		List<Employee> employees = (List<Employee>) session.createQuery("from Employee ").list();
@@ -49,6 +50,19 @@ public class HibernateMain {
 					.println("Employee Details : " + "Id:" + e.getId() + " " + "Employee name:" + e.getEmployeeName());
 			System.out.println("Employer Details: " + "Employer Id:" + e.getEmployer().getId() + " " + "Employer name:"
 					+ e.getEmployer().getEmployerName());
+		}
+
+		@SuppressWarnings({ "unchecked", "deprecation" })
+		List<Employer> employers = (List<Employer>) session.createQuery("from Employer ").list();
+		session.getTransaction().commit();
+		for (Employer es : employers) {
+			System.out.println(
+					"Employer Details: " + "Employer Id:" + es.getId() + " " + "Employer name:" + es.getEmployerName());
+			for (int i = 0; i <= employers.size(); i++) {
+				System.out.println("Employee Details:" + "Employee Id:" + es.getEmployees().get(0).getId() + " "
+						+ "Employee name:" + es.getEmployees().get(1).getEmployeeName());
+			}
+
 		}
 
 		session.close();
