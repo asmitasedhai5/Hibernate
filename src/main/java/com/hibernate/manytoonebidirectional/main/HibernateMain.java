@@ -45,12 +45,12 @@ public class HibernateMain {
 		@SuppressWarnings({ "deprecation", "unchecked" })
 
 		List<Employee> employees = (List<Employee>) session.createQuery("from Employee ").list();
-		for (Employee e : employees) {
+		/*for (Employee e : employees) {
 			System.out
 					.println("Employee Details : " + "Id:" + e.getId() + " " + "Employee name:" + e.getEmployeeName());
 			System.out.println("Employer Details: " + "Employer Id:" + e.getEmployer().getId() + " " + "Employer name:"
 					+ e.getEmployer().getEmployerName());
-		}
+		}*/
 
 		@SuppressWarnings({ "unchecked", "deprecation" })
 		List<Employer> employers = (List<Employer>) session.createQuery("from Employer ").list();
@@ -58,10 +58,13 @@ public class HibernateMain {
 		for (Employer es : employers) {
 			System.out.println(
 					"Employer Details: " + "Employer Id:" + es.getId() + " " + "Employer name:" + es.getEmployerName());
-			for (int i = 0; i <= employers.size(); i++) {
+			for (Employee ep:es.getEmployees()) {
+				System.out.println("Employee Details: "+"Id:"+ep.getId()+" "+"Employee name:"+ep.getEmployeeName());
+			}
+			/*for (int i = 0; i <= employers.size(); i++) {
 				System.out.println("Employee Details:" + "Employee Id:" + es.getEmployees().get(0).getId() + " "
 						+ "Employee name:" + es.getEmployees().get(1).getEmployeeName());
-			}
+			}*/
 
 		}
 
